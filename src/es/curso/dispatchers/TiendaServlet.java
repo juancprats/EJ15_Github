@@ -41,12 +41,15 @@ public class TiendaServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String action = request.getPathInfo().substring(1);
 		request.setCharacterEncoding("UTF-8");
+		String titulo="Sin titulo";
 		switch(action){
 			case "ListaTodo":   //se invoca al controlador adecuado
 								//se redirige a otra pagina
+				titulo="Listado general de clientes";
 				break;
 			case "BuscarPorNombre":  //se invoca al controlador adecuado que obtendra
 									//se redirige a otra pagina
+				titulo="Resultado de la búsqueda por nombre";
 				break;
 			case "altaCliente":        //se invoca al controlador adecuado
 										//se redirige a otra pagina
@@ -55,6 +58,8 @@ public class TiendaServlet extends HttpServlet {
 		RequestDispatcher rd;
 		
 		rd = request.getRequestDispatcher("/jsp/ListarTodo.jsp");
+		request.setAttribute("iva", new Integer(16));
+		request.setAttribute("titulo", titulo);
 		rd.forward(request, response);
 	}
 
@@ -65,11 +70,14 @@ public class TiendaServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String action = request.getPathInfo().substring(1);
 		request.setCharacterEncoding("UTF-8");
+		
 		switch(action){
 			case "ListaTodo":   //se invoca al controlador adecuado
 								//se redirige a otra pagina
+					
 				break;
 			case "BuscarPorNombre":  //se invoca al controlador adecuado que obtendra
+						
 				break;					//se redirige a otra pagina
 				
 			case "altaCliente":        //se invoca al controlador adecuado
