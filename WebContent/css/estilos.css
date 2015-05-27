@@ -15,12 +15,16 @@ input{
 }
 
 table tr th{
-	border:solid black 1px;
+	border:solid #80ff80 1px;
 	background-color:#F2F2F2;
 	width:150px;
 	
 	
 }
+table tr td{
+	text-align: center;
+}
+
 a{
 	text-decoration:none;
 	color:green;

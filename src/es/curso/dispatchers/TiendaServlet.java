@@ -1,6 +1,7 @@
 package es.curso.dispatchers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import es.curso.controllers.ejb.DarAltaClienteControllerEjb;
+import es.curso.controllers.ejb.ListarTodoControllerEjb;
 import es.curso.model.entity.Cliente;
 
 /**
@@ -45,6 +47,9 @@ public class TiendaServlet extends HttpServlet {
 		switch(action){
 			case "ListaTodo":   //se invoca al controlador adecuado
 								//se redirige a otra pagina
+				ListarTodoControllerEjb todos = new ListarTodoControllerEjb();
+				ArrayList<Cliente> clientes = todos.listarTodos();
+				request.setAttribute("clientes", clientes);
 				titulo="Listado general de clientes";
 				break;
 			case "BuscarPorNombre":  //se invoca al controlador adecuado que obtendra
