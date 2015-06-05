@@ -110,4 +110,57 @@ public class ClienteDaoJdbc implements ClienteDao {
 
 	}
 
+	@Override
+	public ArrayList<Cliente> searchByName(String name) {
+		
+		ArrayList<Cliente> cliente = new ArrayList<Cliente>();
+		abrirConexion();
+		try {
+			PreparedStatement ps = cx.prepareStatement("SELECT * FROM cliente WHERE name LIKE ?");
+			ps.setString(1, name + "%");//En el primer interrogante ponemos el parametro name
+			ResultSet consulta = ps.executeQuery();
+			while (consulta.next()) {
+				Cliente clienteTemporal = new Cliente();
+				clienteTemporal.setId(consulta.getInt("idCliente"));
+				clienteTemporal.setName(consulta.getString("name"));
+				clienteTemporal.setApellido(consulta.getString("apellido"));
+				clienteTemporal.setDni(consulta.getString("dni"));
+
+				cliente.add(clienteTemporal);
+			}
+				
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	
+		return cliente;
+	}
+
+	@Override
+	public void update(Cliente cliente) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void delete(String name) {
+		ArrayList<Cliente> cliente = new ArrayList<Cliente>();
+		abrirConexion();
+		
+			PreparedStatement ps;
+			try {
+				ps = cx.prepareStatement("DELETE * FROM cliente WHERE id LIKE ?");
+				ps.setString(1, name );//En el primer interrogante ponemos el parametro name
+				ResultSet consulta = ps.executeQuery();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 }
+
+	
+	}

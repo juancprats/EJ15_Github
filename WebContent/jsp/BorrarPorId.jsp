@@ -9,10 +9,10 @@
 </head>
 <body>
 <!--  ${ pageContext.request.contextPath} Nos escribe la ruta absoluta-->
-<form action="${ pageContext.request.contextPath}/Tienda/BuscarPorNombre" method="post">
+<form action="${ pageContext.request.contextPath}/Tienda/BorrarPorId" method="post">
 <label>Nombre</label>
 <input type="text" name="nombre"/>
-<input type="submit" name="enviar" value="Enviar"/>
+<input type="submit" name="enviar" value="Borrar registro"/>
 <input type="reset" name="borrar" value="Borrar"/>
 </form>
 </body>

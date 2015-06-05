@@ -30,7 +30,9 @@
 	<%for(Cliente c:clientes){%>
 	
 	    <tr>
-	       <td><%=c.getId() %> </td>
+	   
+	       <td><%= c.getId() %> </td>
+	       
 	       <td><%=c.getName() %></td>
 	       <td><%=c.getApellido() %></td>
 	       <td><%=c.getDni() %></td>
