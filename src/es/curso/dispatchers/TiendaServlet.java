@@ -22,12 +22,12 @@ import es.curso.model.entity.Cliente;
 public class TiendaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * Default constructor. 
-     */
-    public TiendaServlet() {
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * Default constructor.
+	 */
+	public TiendaServlet() {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see Servlet#init(ServletConfig)
@@ -37,66 +37,80 @@ public class TiendaServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String action = request.getPathInfo().substring(1);
 		request.setCharacterEncoding("UTF-8");
-		String titulo="Sin titulo";
-		switch(action){
-			case "ListaTodo":   //se invoca al controlador adecuado
-								//se redirige a otra pagina
-				ListarTodoControllerEjb todos = new ListarTodoControllerEjb();
-				ArrayList<Cliente> clientes = todos.listarTodos();
-				request.setAttribute("clientes", clientes);
-				titulo="Listado general de clientes";
-				break;
-			case "BuscarPorNombre":  //se invoca al controlador adecuado que obtendra
-									//se redirige a otra pagina
-				titulo="Resultado de la búsqueda por nombre";
-				break;
-			case "altaCliente":        //se invoca al controlador adecuado
-										//se redirige a otra pagina
-				break;
-		}
+
+		String titulo = "Sin titulo";
 		RequestDispatcher rd;
-		
-		rd = request.getRequestDispatcher("/jsp/ListarTodo.jsp");
-		request.setAttribute("iva", new Integer(16));
-		request.setAttribute("titulo", titulo);
-		rd.forward(request, response);
+		switch (action) {
+		case "ListaTodo": // se invoca al controlador adecuado
+							// se redirige a otra pagina
+			ListarTodoControllerEjb todos = new ListarTodoControllerEjb();
+			ArrayList<Cliente> clientes = todos.listarTodos();
+			request.setAttribute("clientes", clientes);
+			rd = request.getRequestDispatcher("/jsp/ListarTodo.jsp");
+			request.setAttribute("titulo", titulo);
+			rd.forward(request, response);
+			titulo = "Listado general de clientes";
+			break;
+		case "BuscarPorNombre": // se invoca al controlador adecuado que
+								// obtendra
+								// se redirige a otra pagina
+			titulo = "Resultado de la búsqueda por nombre";
+			request.setAttribute("titulo", titulo);
+			rd = request.getRequestDispatcher("/jsp/ListarTodo.jsp");
+			rd.forward(request, response);
+			break;
+			
+		case "altaCliente": // se invoca al controlador adecuado
+			String nombre = request.getParameter("nombre");
+			String apellido = request.getParameter("apellido");
+			String dni = request.getParameter("dni");
+			Cliente cliente = new Cliente(0, nombre, apellido, dni);
+
+			DarAltaClienteControllerEjb controlador = new DarAltaClienteControllerEjb();
+			controlador.agregar(cliente);
+			rd = request.getRequestDispatcher("/index.html");
+			rd.forward(request, response);
+
+			break;
+
+		}
+
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String action = request.getPathInfo().substring(1);
 		request.setCharacterEncoding("UTF-8");
-		
-		switch(action){
-			case "ListaTodo":   //se invoca al controlador adecuado
-								//se redirige a otra pagina
-					
-				break;
-			case "BuscarPorNombre":  //se invoca al controlador adecuado que obtendra
-						
-				break;					//se redirige a otra pagina
-				
-			case "altaCliente":        //se invoca al controlador adecuado
-									String nombre = request.getParameter("nombre");
-									String apellido = request.getParameter("apellido");
-									String dni = request.getParameter("dni");
-									Cliente cliente = new Cliente(0,nombre,apellido,dni); 
-				
-										DarAltaClienteControllerEjb controlador =new DarAltaClienteControllerEjb();
-										controlador.agregar(cliente);
-										
-				break;
+		RequestDispatcher rd;
+		switch (action) {
+		// se redirige a otra pagina
+
+		case "altaCliente": // se invoca al controlador adecuado
+			String nombre = request.getParameter("nombre");
+			String apellido = request.getParameter("apellido");
+			String dni = request.getParameter("dni");
+			Cliente cliente = new Cliente(0, nombre, apellido, dni);
+
+			DarAltaClienteControllerEjb controlador = new DarAltaClienteControllerEjb();
+			controlador.agregar(cliente);
+			rd = request.getRequestDispatcher("/index.html");
+			rd.forward(request, response);
+
+			break;
 		}
 	}
-	
 
 }

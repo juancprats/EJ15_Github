@@ -15,8 +15,7 @@
 	<h1><%=request.getAttribute("titulo")%></h1>
 	<span><%=LocalDateTime.now()%></span>
 	<br>
-	<span>Valor enviado desde el servlet: </span>
-	<span><%=request.getAttribute("iva")%></span>
+	
 	<br>
 	<% ArrayList<Cliente> clientes =(ArrayList<Cliente>) request.getAttribute("clientes");%>
 	<table>
