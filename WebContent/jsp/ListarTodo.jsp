@@ -15,32 +15,36 @@
 	<h1><%=request.getAttribute("titulo")%></h1>
 	<span><%=LocalDateTime.now()%></span>
 	<br>
-	
+
 	<br>
-	<% ArrayList<Cliente> clientes =(ArrayList<Cliente>) request.getAttribute("clientes");%>
+	<%ArrayList<Cliente> clientes = (ArrayList<Cliente>) request.getAttribute("clientes");%>
 	<table>
 		<tr>
 			<th>ID</th>
 			<th>Nombre</th>
 			<th>Apellido</th>
 			<th>DNI</th>
+			<th></th>
 		</tr>
 		<!-- Las siguientes se cargan dinamicamente -->
+   
+		<%for (Cliente c : clientes) {%>
+		
+			
+		<tr>
+		 <form action="${ pageContext.request.contextPath}/Tienda/BorrarPorId"  method="post">
+			<td><input type="text" name="id" value="<%=c.getId()%>"></td>
+			<td><%=c.getName()%></td>
+			<td><%=c.getApellido()%></td>
+			<td><%=c.getDni()%></td>
+			<td><input type="submit" name="<%=c.getId()%>" value="Eliminar" /></td>
+        </form>
+		</tr>
+		
 	
-	<%for(Cliente c:clientes){%>
-	
-	    <tr>
-	   
-	       <td><%= c.getId() %> </td>
-	       
-	       <td><%=c.getName() %></td>
-	       <td><%=c.getApellido() %></td>
-	       <td><%=c.getDni() %></td>
-	    </tr>
-	       
-        
-     
-        <%} %>
-       </table>
+
+		<%}%>
+		
+	</table>
 </body>
 </html>

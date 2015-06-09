@@ -87,7 +87,7 @@ public class TiendaServlet extends HttpServlet {
 			
 		case "BorrarPorId":
 			rd = request.getRequestDispatcher("/jsp/BorrarPorId.jsp");
-			rd.forward(request, response);
+ 			rd.forward(request, response);
 			break;
 			
 
@@ -135,12 +135,13 @@ public class TiendaServlet extends HttpServlet {
 			break;
 			
 		case "BorrarPorId":
-			String borrar = request.getParameter("nombre");
+			Integer borrar = Integer.parseInt(request.getParameter("id"));
 			BorrarPorIdEjb BusquedaId = new BorrarPorIdEjb();
-			ArrayList<Cliente> resultadoId =  BusquedaId.borrarPorId(borrar);
-			request.setAttribute("clientes", resultadoId);
-			rd = request.getRequestDispatcher("/jsp/ListarTodo.jsp");
-			request.setAttribute("titulo", "Búsqueda por: " + borrar);
+			
+			boolean resultadoId =  BusquedaId.borrarPorId(borrar);
+			request.setAttribute("titulo", resultadoId);
+			rd = request.getRequestDispatcher("../index.html");
+			/*request.setAttribute("titulo", "Borrado el id: " + borrar);*/
 			rd.forward(request, response);
 			break;
 			

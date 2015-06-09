@@ -14,5 +14,5 @@ public interface ClienteDao {
 	
 	public void update(Cliente cliente);
 	
-	public void delete(String name);
+	public boolean delete(Integer id);
 }

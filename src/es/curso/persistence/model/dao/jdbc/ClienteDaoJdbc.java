@@ -145,22 +145,29 @@ public class ClienteDaoJdbc implements ClienteDao {
 
 	}
 
-	public void delete(String name) {
-		ArrayList<Cliente> cliente = new ArrayList<Cliente>();
+	public boolean delete(Integer id) {
+		/*ArrayList<Cliente> cliente = new ArrayList<Cliente>();*/
 		abrirConexion();
-		
+		int filas= 0;
 			PreparedStatement ps;
-			try {
-				ps = cx.prepareStatement("DELETE * FROM cliente WHERE id LIKE ?");
-				ps.setString(1, name );//En el primer interrogante ponemos el parametro name
-				ResultSet consulta = ps.executeQuery();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			
-			
+		
+				try {
+					ps = cx.prepareStatement("DELETE FROM cliente WHERE idCliente = ?");
+				
+				ps.setInt(1, id);//En el primer interrogante ponemos el parametro name
+				
+				filas = ps.executeUpdate();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if (filas>0) return true;
+				else return false;
+
+
 }
 
 	
 	}
+
