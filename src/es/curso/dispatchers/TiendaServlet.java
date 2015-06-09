@@ -15,6 +15,7 @@ import es.curso.controllers.ejb.BorrarPorIdEjb;
 import es.curso.controllers.ejb.BuscarPorNombreControllerEjb;
 import es.curso.controllers.ejb.DarAltaClienteControllerEjb;
 import es.curso.controllers.ejb.ListarTodoControllerEjb;
+import es.curso.controllers.ejb.ModificarPorNombreControllerEjb;
 import es.curso.model.entity.Cliente;
 
 /**
@@ -90,6 +91,12 @@ public class TiendaServlet extends HttpServlet {
  			rd.forward(request, response);
 			break;
 			
+		case "Modificar":
+			rd=request.getRequestDispatcher("/jsp/Modificar.jsp");
+			rd.forward(request, response);
+			break;
+			
+			
 
 		}
 
@@ -143,6 +150,26 @@ public class TiendaServlet extends HttpServlet {
 			rd = request.getRequestDispatcher("../index.html");
 			/*request.setAttribute("titulo", "Borrado el id: " + borrar);*/
 			rd.forward(request, response);
+			break;
+			
+		case "Modificar1":
+			String cadena1 = request.getParameter("nombre");
+			ModificarPorNombreControllerEjb controladorModificar = new ModificarPorNombreControllerEjb();
+			ArrayList<Cliente> result = controladorModificar.buscarPorNombre(cadena1);
+			request.setAttribute("clientes", result);
+			rd=request.getRequestDispatcher("/jsp/ModificarCliente.jsp");
+			rd.forward(request, response);
+			break;
+			
+		case "Modificar2":
+			int idCliente = Integer.parseInt(request.getParameter("id"));
+			String nombreCliente = request.getParameter("nombre");
+			String apellidosCliente = request.getParameter("apellidos");
+			String dniCliente = request.getParameter("dni");
+			ModificarPorNombreControllerEjb controladorModificar2 = new ModificarPorNombreControllerEjb();
+			Cliente clienteActual = new Cliente(idCliente, nombreCliente, apellidosCliente, dniCliente);
+			controladorModificar2.actualizar(clienteActual);
+			response.sendRedirect("ListaTodo");
 			break;
 			
 			
