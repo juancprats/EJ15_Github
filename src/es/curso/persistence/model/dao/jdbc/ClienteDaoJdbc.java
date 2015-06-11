@@ -40,9 +40,15 @@ public class ClienteDaoJdbc implements ClienteDao {
 								// devuelve el numero de registro de filas
 								// afectadas
 			// 3.1 hacer commit
-
+			cx.commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			try {
+				cx.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 
@@ -89,7 +95,7 @@ public class ClienteDaoJdbc implements ClienteDao {
 					"jdbc:mysql://localhost:3306/tienda", "roottienda",
 					"roottienda");
 			// iniciar autocomit en false
-			// cx.setAutoCommit(false);
+			cx.setAutoCommit(false);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -153,10 +159,17 @@ public class ClienteDaoJdbc implements ClienteDao {
 				ps.setInt(4, cliente.getId());
 				
 				 ps.executeUpdate();
+				 cx.commit();
 
 				
 			}
 		 catch (SQLException e) {
+			 try {
+				cx.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -172,7 +185,7 @@ public class ClienteDaoJdbc implements ClienteDao {
 		
 		
 		
-	public boolean delete(Integer id) {
+	public boolean delete(String id) {
 		/*ArrayList<Cliente> cliente = new ArrayList<Cliente>();*/
 		abrirConexion();
 		int filas= 0;
@@ -180,12 +193,19 @@ public class ClienteDaoJdbc implements ClienteDao {
 			
 		
 				try {
-					ps = cx.prepareStatement("DELETE FROM cliente WHERE idCliente = ?");
+					ps = cx.prepareStatement("DELETE FROM cliente WHERE name = ?");
 				
-				ps.setInt(1, id);//En el primer interrogante ponemos el parametro name
+				ps.setString(1, id);//En el primer interrogante ponemos el parametro name
 				
 				filas = ps.executeUpdate();
+				cx.commit();;
 				} catch (SQLException e) {
+					try {
+						cx.rollback();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

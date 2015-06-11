@@ -33,13 +33,13 @@ a{
 
 form
 {
-   float:left;
+   /*float:left;*/
    padding:20px;
    cursor:pointer;
    display:block;
    width:290px;
-   margin:2px auto;
-   text-align:left;
+   margin: auto 10px;
+   text-align:center;
 }
 legend
 {

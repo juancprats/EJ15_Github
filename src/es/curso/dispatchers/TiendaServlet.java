@@ -52,6 +52,7 @@ public class TiendaServlet extends HttpServlet {
 		String titulo = "Sin titulo";
 		RequestDispatcher rd;
 		switch (action) {
+		
 		case "ListaTodo": // se invoca al controlador adecuado
 							// se redirige a otra pagina
 			ListarTodoControllerEjb todos = new ListarTodoControllerEjb();
@@ -60,9 +61,20 @@ public class TiendaServlet extends HttpServlet {
 			rd = request.getRequestDispatcher("/jsp/ListarTodo.jsp");
 			titulo = "Listado general de clientes";
 			request.setAttribute("titulo", titulo);
-			rd.forward(request, response);
-			
+			rd.forward(request, response);			
 			break;
+			
+		case "ListaTodo2": // se invoca al controlador adecuado
+			// se redirige a otra pagina
+			ListarTodoControllerEjb todos1 = new ListarTodoControllerEjb();
+			ArrayList<Cliente> clientes1 = todos1.listarTodos();
+			request.setAttribute("clientes", clientes1);
+			rd = request.getRequestDispatcher("/jsp/ListarTodo2.jsp");
+			titulo = "Listado general de clientes";
+			request.setAttribute("titulo", titulo);
+			rd.forward(request, response);			
+			break;
+			
 		case "BuscarPorNombre": // se invoca al controlador adecuado que
 								// obtendra
 								// se redirige a otra pagina
@@ -81,7 +93,7 @@ public class TiendaServlet extends HttpServlet {
 
 			DarAltaClienteControllerEjb controlador = new DarAltaClienteControllerEjb();
 			controlador.agregar(cliente);
-			rd = request.getRequestDispatcher("../html/altaClienteView.html");
+			rd = request.getRequestDispatcher("/jsp/altaCliente.jsp");
 			rd.forward(request, response);
 
 			break;
@@ -127,7 +139,7 @@ public class TiendaServlet extends HttpServlet {
 
 			DarAltaClienteControllerEjb controlador = new DarAltaClienteControllerEjb();
 			controlador.agregar(cliente);
-			rd = request.getRequestDispatcher("../index.html");
+			rd = request.getRequestDispatcher("../index.jsp");
 			rd.forward(request, response);
 
 			break;
@@ -142,12 +154,12 @@ public class TiendaServlet extends HttpServlet {
 			break;
 			
 		case "BorrarPorId":
-			Integer borrar = Integer.parseInt(request.getParameter("id"));
+			String borrar = request.getParameter("id");
 			BorrarPorIdEjb BusquedaId = new BorrarPorIdEjb();
 			
 			boolean resultadoId =  BusquedaId.borrarPorId(borrar);
 			request.setAttribute("titulo", resultadoId);
-			rd = request.getRequestDispatcher("../index.html");
+			rd = request.getRequestDispatcher("../index.jsp");
 			/*request.setAttribute("titulo", "Borrado el id: " + borrar);*/
 			rd.forward(request, response);
 			break;
@@ -169,7 +181,7 @@ public class TiendaServlet extends HttpServlet {
 			ModificarPorNombreControllerEjb controladorModificar2 = new ModificarPorNombreControllerEjb();
 			Cliente clienteActual = new Cliente(idCliente, nombreCliente, apellidosCliente, dniCliente);
 			controladorModificar2.actualizar(clienteActual);
-			response.sendRedirect("ListaTodo");
+			response.sendRedirect("ListaTodo2");
 			break;
 			
 			

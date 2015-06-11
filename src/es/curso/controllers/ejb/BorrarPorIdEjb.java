@@ -6,10 +6,10 @@ import es.curso.persistence.model.dao.jdbc.ClienteDaoJdbc;
 public class BorrarPorIdEjb implements BorrarPorId{
 
 		
-public boolean borrarPorId(Integer id) {
+public boolean borrarPorId(String borrar) {
 		
 		ClienteDaoJdbc daoCliente = new ClienteDaoJdbc();
-		return daoCliente.delete(id);
+		return daoCliente.delete(borrar);
 		
 		
 		
