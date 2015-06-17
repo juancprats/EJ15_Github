@@ -16,6 +16,7 @@
 <th><a href="${pageContext.request.contextPath}/Tienda/BuscarPorNombre">Consultar nombre</a></th>
 <th><a href="${pageContext.request.contextPath}/Tienda/BorrarPorId">Borrar registro</a></th>
 <th><a href="${pageContext.request.contextPath}/Tienda/Modificar">Modificar registro</a></th>
+<th><a href="${pageContext.request.contextPath}/Tienda/log">Login</a></th>
 
 </tr>
 </table>

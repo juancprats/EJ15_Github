@@ -10,13 +10,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import es.curso.controllers.ejb.BorrarPorIdEjb;
 import es.curso.controllers.ejb.BuscarPorNombreControllerEjb;
+import es.curso.controllers.ejb.ComprobarUsuarioControllerEjb;
 import es.curso.controllers.ejb.DarAltaClienteControllerEjb;
 import es.curso.controllers.ejb.ListarTodoControllerEjb;
 import es.curso.controllers.ejb.ModificarPorNombreControllerEjb;
 import es.curso.model.entity.Cliente;
+import es.curso.model.entity.Usuario;
 
 /**
  * Servlet implementation class TiendaServlet
@@ -38,7 +41,7 @@ public class TiendaServlet extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 	}
-
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -108,6 +111,16 @@ public class TiendaServlet extends HttpServlet {
 			rd.forward(request, response);
 			break;
 			
+		
+			
+		case "login":
+			rd=request.getRequestDispatcher("/login.jsp");
+			rd.forward(request, response);
+			break;
+			
+		
+			
+		
 			
 
 		}
@@ -182,6 +195,31 @@ public class TiendaServlet extends HttpServlet {
 			Cliente clienteActual = new Cliente(idCliente, nombreCliente, apellidosCliente, dniCliente);
 			controladorModificar2.actualizar(clienteActual);
 			response.sendRedirect("ListaTodo2");
+			break;
+			
+		case "log":
+			rd=request.getRequestDispatcher("login.jsp");
+			rd.forward(request, response);
+			break;	
+			
+		case "login":
+			String usuario = request.getParameter("userName");
+			String contras = request.getParameter("password");
+			ComprobarUsuarioControllerEjb user = new ComprobarUsuarioControllerEjb();
+			Usuario u=user.comprobar(usuario,contras);
+			if (u==null){
+				HttpSession session = request.getSession(false);
+				session = request.getSession(true);
+				String nombreCompleto= u.getNombre()+" "+u.getApellido();
+				session.setAttribute("nombreCompleto", nombreCompleto);
+				session.setAttribute("username", u.getUsername());
+				rd=request.getRequestDispatcher("/index.jsp");
+				rd.forward(request, response);
+			}else
+				
+			
+			response.sendRedirect("login");
+			
 			break;
 			
 			
