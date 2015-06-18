@@ -118,12 +118,14 @@ public class ClienteDaoJdbc implements ClienteDao {
 
 	@Override
 	public ArrayList<Cliente> searchByName(String name) {
-		
+
 		ArrayList<Cliente> cliente = new ArrayList<Cliente>();
 		abrirConexion();
 		try {
-			PreparedStatement ps = cx.prepareStatement("SELECT * FROM cliente WHERE name LIKE ?");
-			ps.setString(1, name + "%");//En el primer interrogante ponemos el parametro name
+			PreparedStatement ps = cx
+					.prepareStatement("SELECT * FROM cliente WHERE name LIKE ?");
+			ps.setString(1, name + "%");// En el primer interrogante ponemos el
+										// parametro name
 			ResultSet consulta = ps.executeQuery();
 			while (consulta.next()) {
 				Cliente clienteTemporal = new Cliente();
@@ -134,14 +136,12 @@ public class ClienteDaoJdbc implements ClienteDao {
 
 				cliente.add(clienteTemporal);
 			}
-				
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-	
+
 		return cliente;
 	}
 
@@ -151,20 +151,17 @@ public class ClienteDaoJdbc implements ClienteDao {
 		PreparedStatement ps;
 		try {
 			ps = cx.prepareStatement("UPDATE cliente SET name=?, apellido=?, dni=?  WHERE idCliente = ?");
-			
-			
-				ps.setString(1, cliente.getName());
-				ps.setString(2, cliente.getApellido());
-				ps.setString(3, cliente.getDni());
-				ps.setInt(4, cliente.getId());
-				
-				 ps.executeUpdate();
-				 cx.commit();
 
-				
-			}
-		 catch (SQLException e) {
-			 try {
+			ps.setString(1, cliente.getName());
+			ps.setString(2, cliente.getApellido());
+			ps.setString(3, cliente.getDni());
+			ps.setInt(4, cliente.getId());
+
+			ps.executeUpdate();
+			cx.commit();
+
+		} catch (SQLException e) {
+			try {
 				cx.rollback();
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
@@ -173,48 +170,43 @@ public class ClienteDaoJdbc implements ClienteDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
 		finally {
 			cerrarConexion();
+		}
+
 	}
 
-	}	
-		
-		
-		
-		
-		
 	public boolean delete(String id) {
-		/*ArrayList<Cliente> cliente = new ArrayList<Cliente>();*/
+		/* ArrayList<Cliente> cliente = new ArrayList<Cliente>(); */
 		abrirConexion();
-		int filas= 0;
-			PreparedStatement ps;
-			
-		
-				try {
-					ps = cx.prepareStatement("DELETE FROM cliente WHERE name = ?");
-				
-				ps.setString(1, id);//En el primer interrogante ponemos el parametro name
-				
-				filas = ps.executeUpdate();
-				cx.commit();;
-				} catch (SQLException e) {
-					try {
-						cx.rollback();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if (filas>0) return true;
-				else return false;
+		int filas = 0;
+		PreparedStatement ps;
 
+		try {
+			ps = cx.prepareStatement("DELETE FROM cliente WHERE name = ?");
+
+			ps.setString(1, id);// En el primer interrogante ponemos el
+								// parametro name
+
+			filas = ps.executeUpdate();
+			cx.commit();
+			;
+		} catch (SQLException e) {
+			try {
+				cx.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (filas > 0)
+			return true;
+		else
+			return false;
+
+	}
 
 }
-
-	
-	}
-

@@ -10,11 +10,10 @@ import java.sql.PreparedStatement;
 import es.curso.model.entity.Usuario;
 import es.curso.persistence.model.dao.UsuarioDao;
 
-public class UsuarioDaoJdbc implements UsuarioDao{
-	
+public class UsuarioDaoJdbc implements UsuarioDao {
+
 	private Connection cx;
-	
-	
+
 	private void abrirConexion() {
 		// determinar y validar si tengo el driver o conector
 		try {
@@ -47,36 +46,34 @@ public class UsuarioDaoJdbc implements UsuarioDao{
 
 	@Override
 	public Usuario search(String user, String psw) {
-		
-		 Usuario usuario = null;
-		 //Preparamos la sentencia
-		 PreparedStatement ps;
+
+		Usuario usuario = null;
+		// Preparamos la sentencia
+		PreparedStatement ps;
 		try {
-			 abrirConexion();
-			ps = cx.prepareStatement("SELECT * FROM usuario WHERE userName=? AND password=?");
-		
-				ps.setString(1, user);
-				ps.setString(2, psw );
-				ResultSet consulta = ps.executeQuery();
-				if(consulta.next()){
-					usuario = new Usuario();
-					usuario.setId(consulta.getInt("id"));
-					usuario.setNombre(consulta.getString("nombre"));
-					usuario.setApellido(consulta.getString("apellido"));
-					usuario.setApellido(consulta.getString("useName"));
-					usuario.setApellido(consulta.getString("password"));
-					
-				}
-		 
+			abrirConexion();
+			ps = cx.prepareStatement("SELECT * FROM usuario WHERE username=? AND password=?");
+
+			ps.setString(1, user);
+			ps.setString(2, psw);
+			ResultSet consulta = ps.executeQuery();
+			if (consulta.next()) {
+				usuario = new Usuario();
+				usuario.setId(consulta.getInt("id"));
+				usuario.setNombre(consulta.getString("nombre"));
+				usuario.setApellido(consulta.getString("apellido"));
+				usuario.setUsername(consulta.getString("username"));
+				usuario.setPassword(consulta.getString("password"));
+
+			}
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		finally{
+		} finally {
 			cerrarConexion();
 		}
 		return usuario;
 	}
-
 
 }
